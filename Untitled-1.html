@@ -1,29 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Download 3D Clip OBJ</title>
+  <title>3D Clip OBJ ダウンロード</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     h1 { text-align: center; }
+    p { text-align: center; }
     #downloadLink { text-align: center; margin-top: 20px; }
+    a { font-size: 20px; color: #007bff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/exporters/OBJExporter.js"></script>
 </head>
 <body>
 
-  <h1>Download 3D Clip OBJ</h1>
-  <p>Click the button below to download the 3D clip as an OBJ file.</p>
+  <h1>3D Clip OBJ ダウンロード</h1>
+  <p>以下のリンクをクリックすると、クリップの3D OBJファイルをダウンロードできます。</p>
 
-  <div id="downloadLink">
-    <button onclick="downloadOBJ()">Download OBJ File</button>
+  <div id="downloadLink" style="text-align: center; margin-top: 20px;">
+    <button onclick="downloadOBJ()">OBJファイルをダウンロード</button>
   </div>
 
   <script>
+    // 3Dクリップモデルを作成する関数
     function createClipModel() {
-      // 3Dシーンの作成
       const scene = new THREE.Scene();
 
       // ベース部分を作成
@@ -55,20 +58,20 @@
       return scene;
     }
 
+    // OBJファイルをダウンロードする関数
     function downloadOBJ() {
-      const scene = createClipModel();
+      const scene = createClipModel(); // 3Dモデルの作成
 
-      // OBJExporterを使ってOBJファイルをエクスポート
-      const exporter = new THREE.OBJExporter();
-      const objData = exporter.parse(scene);
+      const exporter = new THREE.OBJExporter(); // OBJエクスポーターのインスタンスを作成
+      const objData = exporter.parse(scene); // 3DシーンからOBJデータをエクスポート
 
       // ダウンロード用のリンクを作成
       const blob = new Blob([objData], { type: 'application/octet-stream' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'paper_clip.obj';
-      a.click();
+      const url = URL.createObjectURL(blob); // BlobデータをURLに変換
+      const a = document.createElement('a'); // <a>タグを作成
+      a.href = url; // URLをリンクに設定
+      a.download = 'paper_clip.obj'; // ダウンロードするファイル名を設定
+      a.click(); // リンクをクリックしてダウンロードを実行
     }
   </script>
 
