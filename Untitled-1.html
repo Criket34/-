@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download 3D Clip OBJ</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { text-align: center; }
+    #downloadLink { text-align: center; margin-top: 20px; }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/exporters/OBJExporter.js"></script>
+</head>
+<body>
+
+  <h1>Download 3D Clip OBJ</h1>
+  <p>Click the button below to download the 3D clip as an OBJ file.</p>
+
+  <div id="downloadLink">
+    <button onclick="downloadOBJ()">Download OBJ File</button>
+  </div>
+
+  <script>
+    function createClipModel() {
+      // 3Dシーンの作成
+      const scene = new THREE.Scene();
+
+      // ベース部分を作成
+      const baseGeometry = new THREE.BoxGeometry(50, 30, 3);
+      const baseMaterial = new THREE.MeshBasicMaterial({ color: 0x777777 });
+      const base = new THREE.Mesh(baseGeometry, baseMaterial);
+      scene.add(base);
+
+      // 丸いフック部分を作成
+      const hookGeometry = new THREE.CylinderGeometry(7, 7, 20, 16);
+      const hookMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
+
+      // フック1とフック2を作成して配置
+      const hook1 = new THREE.Mesh(hookGeometry, hookMaterial);
+      hook1.position.set(12.5, 15, 3);
+      scene.add(hook1);
+
+      const hook2 = new THREE.Mesh(hookGeometry, hookMaterial);
+      hook2.position.set(37.5, 15, 3);
+      scene.add(hook2);
+
+      // フックの連結部分を作成
+      const connectorGeometry = new THREE.CylinderGeometry(3, 3, 50, 16);
+      const connectorMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
+      const connector = new THREE.Mesh(connectorGeometry, connectorMaterial);
+      connector.position.set(25, 15, 3);
+      scene.add(connector);
+
+      return scene;
+    }
+
+    function downloadOBJ() {
+      const scene = createClipModel();
+
+      // OBJExporterを使ってOBJファイルをエクスポート
+      const exporter = new THREE.OBJExporter();
+      const objData = exporter.parse(scene);
+
+      // ダウンロード用のリンクを作成
+      const blob = new Blob([objData], { type: 'application/octet-stream' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'paper_clip.obj';
+      a.click();
+    }
+  </script>
+
+</body>
+</html>
